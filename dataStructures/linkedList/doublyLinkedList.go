@@ -72,8 +72,21 @@ func (target *LinkedList) RemoveFirst() (interface{}, error){
 
 // RemoveLast method removes the last element of the LinkedList and returns it. If the LinkedList is empty error will be returned.
 func (target *LinkedList) RemoveLast()(interface{}, error){
-	return (nil, nil)
-	// not implemented
+	if target.tail == nil {
+		return nil, errors.New("target Linked List is empty!") 
+	}
+
+	removed := target.tail
+	target.tail = target.tail.Previous
+
+	if target.tail == nil {
+		target.head = nil
+	} else {
+		target.tail.Next = nil
+	}
+
+	return removed.Value, nil
+	// not TESTED
 }
 
 //String method returns a string representing the Linked List
