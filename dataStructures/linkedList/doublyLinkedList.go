@@ -1,5 +1,9 @@
 package linkedList
 
+import(
+	"strings"
+	"errors"
+)
 
 //LinkedList implements a Doubly Linked List data structure
 type LinkedList struct{
@@ -12,12 +16,17 @@ type LinkedList struct{
 func (target LinkedList) Count() int{
 	return target.count
 }
+//ConstructLinkedList is a constructor function for Linked List
+func ConstructLinkedList() *LinkedList{
+	return &LinkedList{nil, nil, 0}
+}
 
 // AddFirst inserts element at the beginning of the Linked List
 func (target *LinkedList) AddFirst(element interface{}) {
 	newNode := &listNode{nil, nil, element}
 
-	if (target.head == nil){ // linkedList is Empty
+	// linkedList is Empty
+	if target.head == nil{ 
 		target.head = newNode
 		target.tail = newNode
 	} else {
@@ -32,7 +41,7 @@ func (target *LinkedList) AddFirst(element interface{}) {
 func (target *LinkedList) AddLast(element interface{}) {
 	newNode := &listNode{nil, nil, element}
 
-	if (target.tail == nil){
+	if target.tail == nil {
 		target.AddFirst(element)
 		return
 	}
@@ -41,6 +50,30 @@ func (target *LinkedList) AddLast(element interface{}) {
 	newNode.Previous = target.tail
 	target.tail = newNode
 	target.count++
+}
+
+// RemoveFirst method removes the first element of the LinkedList and returns it. If the LinkedList is empty error will be returned.
+func (target *LinkedList) RemoveFirst() (interface{}, error){
+	if target.head == nil {
+		return nil, errors.New("target Linked List is empty!")
+	}
+
+	removed := target.head
+	target.head = target.head.Next
+
+	if target.head == nil{
+		target.tail = nil
+	} else{
+		target.head.Previous = nil
+	}
+
+	return removed.Value, nil
+}
+
+// RemoveLast method removes the last element of the LinkedList and returns it. If the LinkedList is empty error will be returned.
+func (target *LinkedList) RemoveLast()(interface{}, error){
+	return (nil, nil)
+	// not implemented
 }
 
 //String method returns a string representing the Linked List
@@ -52,5 +85,7 @@ func (target LinkedList) String() string {
 		result += " "
 		temp = temp.Next
 	}
-	return result
+	
+	return strings.Trim(result, " ")
 }
+
