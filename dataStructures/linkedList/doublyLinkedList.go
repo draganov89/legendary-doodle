@@ -7,8 +7,8 @@ import(
 
 //LinkedList implements a Doubly Linked List data structure
 type LinkedList struct{
-	head *listNode
-	tail *listNode
+	head, tail *listNode
+	compare func(a, b interface{}) int
 	count int
 }
 
@@ -17,8 +17,8 @@ func (target LinkedList) Count() int{
 	return target.count
 }
 //ConstructLinkedList is a constructor function for Linked List
-func ConstructLinkedList() *LinkedList{
-	return &LinkedList{nil, nil, 0}
+func ConstructLinkedList(comparator func(a, b interface{}) int) *LinkedList{
+	return &LinkedList{nil, nil, comparator, 0}
 }
 
 // AddFirst inserts element at the beginning of the Linked List
@@ -114,10 +114,3 @@ func (target LinkedList) String() string {
 	return strings.Trim(result, " ")
 }
 
-func (l listNode) RandomRecieverFunc(num int){
-	
-}
-
-// type Comparable interface {
-//     compare(Comparable) int
-// }
