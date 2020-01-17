@@ -67,6 +67,7 @@ func (target *LinkedList) RemoveFirst() (interface{}, error){
 		target.head.Previous = nil
 	}
 
+	target.count--
 	return removed.Value, nil
 }
 
@@ -85,9 +86,20 @@ func (target *LinkedList) RemoveLast()(interface{}, error){
 		target.tail.Next = nil
 	}
 
+	target.count--
 	return removed.Value, nil
-	// not TESTED
 }
+
+// func (target LinkedList) Contains(value Comparable) bool {
+// 	temp := target.head
+// 	for temp != nil {
+// 		if temp.Value.CompareTo(value) == 0 {
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
+
 
 //String method returns a string representing the Linked List
 func (target LinkedList) String() string {
@@ -102,3 +114,10 @@ func (target LinkedList) String() string {
 	return strings.Trim(result, " ")
 }
 
+func (l listNode) RandomRecieverFunc(num int){
+	
+}
+
+// type Comparable interface {
+//     compare(Comparable) int
+// }
