@@ -2,8 +2,20 @@ package linkedList
 
 import "testing"
 
+func intComparator(a, b interface{}) int {
+	aInt := a.(int)
+	bInt := b.(int)
+
+	if aInt < bInt {
+		return -1
+	} else if aInt > bInt{
+		return 1
+	}
+	return 0
+}
+
 func TestString(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 	ll.AddFirst(7)
 	ll.AddFirst(17)
 	ll.AddFirst(77)
@@ -17,7 +29,7 @@ func TestString(t *testing.T){
 }
 
 func TestString_ZeroItems(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 
 	expected := ""
 	if ll.String() == expected{
@@ -28,7 +40,7 @@ func TestString_ZeroItems(t *testing.T){
 }
 
 func TestCount_SingleElement(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 
 	ll.AddFirst(7)
 
@@ -40,7 +52,7 @@ func TestCount_SingleElement(t *testing.T){
 }
 
 func TestCount_ManyElement(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 
 	ll.AddFirst(7)
 	ll.AddFirst(17)
@@ -55,7 +67,7 @@ func TestCount_ManyElement(t *testing.T){
 }
 
 func TestRemoveFirst_Empty(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 	removed, err := ll.RemoveFirst()
 
 	if	err != nil {
@@ -66,7 +78,7 @@ func TestRemoveFirst_Empty(t *testing.T){
 }
 
 func TestRemoveFirst_SingleElement(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 	expected := 7
 	ll.AddFirst(expected)
 	removed, err := ll.RemoveFirst()
@@ -83,7 +95,7 @@ func TestRemoveFirst_SingleElement(t *testing.T){
 }
 
 func TestRemoveFirst_MultipleElements(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 	ll.AddFirst(12)
 	ll.AddFirst(7)
 	removed, err := ll.RemoveFirst()
@@ -103,7 +115,7 @@ func TestRemoveFirst_MultipleElements(t *testing.T){
 }
 
 func TestRemoveLast_Empty(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 	removed, err := ll.RemoveLast()
 
 	if	err != nil {
@@ -114,7 +126,7 @@ func TestRemoveLast_Empty(t *testing.T){
 }
 
 func TestRemoveLast_SingleElement(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 	expected := 17
 	ll.AddFirst(expected)
 	removed, err := ll.RemoveLast()
@@ -131,7 +143,7 @@ func TestRemoveLast_SingleElement(t *testing.T){
 }
 
 func TestRemoveLast_MultipleElements(t *testing.T){
-	ll := ConstructLinkedList()
+	ll := ConstructLinkedList(nil)
 	ll.AddFirst(12)
 	ll.AddFirst(7) // 7 12
 	removed, err := ll.RemoveLast()
@@ -150,17 +162,36 @@ func TestRemoveLast_MultipleElements(t *testing.T){
 	}
 }
 
-// func TestContains(t *testing.T) {
-// 	ll := ConstructLinkedList()
-// 	ll.AddFirst(7)
-// 	ll.AddFirst(17)
-// 	ll.AddFirst(77)
+func TestContains_True(t *testing.T) {
 
-// 	contained := ll.Contains(17)
-// 	expected := true
-// 	if expected == contained {
-// 		t.Logf("Success! Expected %v, got %v",expected, contained)
-// 	} else {
-// 		t.Errorf("Fail! Expected %v, got %v", expected, contained)
-// 	}
-// }
+	ll := ConstructLinkedList(intComparator)
+
+	ll.AddFirst(7)
+	ll.AddFirst(17)
+	ll.AddFirst(77)
+
+	found := ll.Contains(77)
+	expected := true
+	if expected == found {
+		t.Logf("Success! Expected %v, got %v",expected, found)
+	} else {
+		t.Errorf("Fail! Expected %v, got %v", expected, found)
+	}
+}
+
+func TestContains_False(t *testing.T) {
+
+	ll := ConstructLinkedList(intComparator)
+
+	ll.AddFirst(7)
+	ll.AddFirst(17)
+	ll.AddFirst(77)
+
+	found := ll.Contains(66)
+	expected := false
+	if expected == found {
+		t.Logf("Success! Expected %v, got %v",expected, found)
+	} else {
+		t.Errorf("Fail! Expected %v, got %v", expected, found)
+	}
+}

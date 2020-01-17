@@ -7,11 +7,10 @@ import(
 
 func main(){
 
-	linked := ll.ConstructLinkedList()
+	linked := ll.ConstructLinkedList(nil)
 	linked.AddFirst(12)
 
-	ex := ll.Exported{14}
-	fmt.Println(ex)
+	fmt.Println(linked)
 }
 
 

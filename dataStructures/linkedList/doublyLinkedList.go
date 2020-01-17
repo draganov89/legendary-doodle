@@ -90,15 +90,17 @@ func (target *LinkedList) RemoveLast()(interface{}, error){
 	return removed.Value, nil
 }
 
-// func (target LinkedList) Contains(value Comparable) bool {
-// 	temp := target.head
-// 	for temp != nil {
-// 		if temp.Value.CompareTo(value) == 0 {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
+//Contains method returns true if the element is found in the Linked List and false if it is not
+func (target LinkedList) Contains(val interface{}) bool {
+	temp := target.head
+	for temp != nil {
+		if target.compare(temp.Value, val) == 0 {
+			return true
+		}
+		temp = temp.Next
+	}
+	return false
+}
 
 
 //String method returns a string representing the Linked List
@@ -113,4 +115,3 @@ func (target LinkedList) String() string {
 	
 	return strings.Trim(result, " ")
 }
-
