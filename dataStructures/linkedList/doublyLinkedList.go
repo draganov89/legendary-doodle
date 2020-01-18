@@ -102,6 +102,52 @@ func (target LinkedList) Contains(val interface{}) bool {
 	return false
 }
 
+//Sort performs a Bubble sort over the Linked list. The result is the Linked List in ascending order.
+func (target *LinkedList) Sort() {
+	if target.head == nil || target.head == target.tail {
+		return
+	} 
+	
+	for{
+		current := target.head
+		next := current.Next 
+		isSwapMade := false
+		for next != nil {
+			if target.compare(current.Value, next.Value) > 0 {
+				swap(current, next)
+				if current == target.head {
+					target.head = next
+				}
+				if next == target.tail {
+					target.tail = current
+				}
+				current, next = next, current
+				isSwapMade = true
+			}
+			current = next
+			next = next.Next
+		}
+
+		if !isSwapMade {
+			return 
+		} 
+	}
+}
+
+//Swap method swaps the position of two listNodes
+func swap(a, b *listNode) {
+	a.Next = b.Next
+	b.Previous = a.Previous
+	a.Previous = b
+	b.Next = a
+	if a.Next != nil {
+		a.Next.Previous = a
+	}
+
+	if b.Previous != nil {
+		b.Previous.Next = b
+	}
+}
 
 //String method returns a string representing the Linked List
 func (target LinkedList) String() string {

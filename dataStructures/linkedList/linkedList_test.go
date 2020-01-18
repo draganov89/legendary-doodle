@@ -195,3 +195,39 @@ func TestContains_False(t *testing.T) {
 		t.Errorf("Fail! Expected %v, got %v", expected, found)
 	}
 }
+
+
+func TestSort_TwoElements(t *testing.T) {
+
+	ll := ConstructLinkedList(intComparator)
+
+	ll.AddFirst(7)
+	ll.AddFirst(77)
+
+	ll.Sort()
+	found := ll.String()
+	expected := "7 77"
+	if expected == found {
+		t.Logf("Success! Expected %v, got %v",expected, found)
+	} else {
+		t.Errorf("Fail! Expected %v, got %v", expected, found)
+	}
+}
+
+func TestSort_ThreeElements(t *testing.T) {
+
+	ll := ConstructLinkedList(intComparator)
+
+	ll.AddFirst(2)
+	ll.AddFirst(71)
+	ll.AddFirst(43)
+
+	ll.Sort()
+	found := ll.String()
+	expected := "2 43 71"
+	if expected == found {
+		t.Logf("Success! Expected %v, got %v",expected, found)
+	} else {
+		t.Errorf("Fail! Expected %v, got %v", expected, found)
+	}
+}
