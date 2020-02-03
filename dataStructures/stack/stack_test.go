@@ -13,6 +13,21 @@ func TestCount_Empty(t *testing.T) {
 	}
 }
 
+func TestCount_ManyValues(t *testing.T) {
+	st := ConstructStack()
+	st.Push(66)
+	st.Push(66)
+	st.Push(66)
+
+	expected := 3
+	actual := st.Count()
+	if st.Count() == expected {
+		t.Logf("Success! Expected %v, got %v", expected, actual)
+	} else {
+		t.Errorf("Fail! Expected %v, got %v", expected, actual)
+	}
+}
+
 func TestCount_AddRemove(t *testing.T) {
 	st := ConstructStack()
 	st.Push(66)
@@ -33,9 +48,9 @@ func TestPull_OneValue(t *testing.T) {
 
 	expected := 66
 	if ok && actual == expected {
-		t.Logf("Success! Expected %v, got %v", expected, st.Count())
+		t.Logf("Success! Expected %v, got %v", expected, actual)
 	} else {
-		t.Errorf("Fail! Expected %v, got %v", expected, st.Count())
+		t.Errorf("Fail! Expected %v, got %v", expected, actual)
 	}
 }
 
