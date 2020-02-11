@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-type Node struct { 
+type node struct { 
 	Value interface{}
-	Next *Node
+	Next *node
 }
 
 type Stack struct {
-	top *Node
+	top *node
 	count int
 }
 
@@ -29,7 +29,7 @@ func (t *Stack) Empty() {
 }
 
 func (t *Stack) Push(val interface{}) {
-	node := &Node{val, nil}
+	node := &node{val, nil}
 
 	node.Next = t.top
 	t.top = node
