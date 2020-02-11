@@ -21,32 +21,30 @@ func (t *AVLTree) Add(value interface{}) bool {
 			Height: 0,
 		}
 
-	result, ok = t.add(t.root, newNode)
-	if ok != nil {
-		return false
+	result, ok := t.add(t.root, newNode)
+	if ok {
+		t.root = result
+		t.count++
 	} 
-	t.root = result
-	t.count++
-	return true
+	return ok
 }
 
-func (t *AVLTree) add(current *treeNode, newNode *treeNode) *treeNode, bool {
+func (t *AVLTree) add(current *treeNode, newNode *treeNode) (*treeNode, bool) {
 	
 	if current == nil {
-		return newNode
+		return newNode, true
 	}
 
-	// result, ok   ??!?!
 	if t.compare(current.Value, newNode.Value) > 0 { // go LEFT
 		result, ok := t.add(current.Left, newNode)
 		if !ok {
-			return result, ok
+			return nil, false
 		}
 		current.Left = result
 	} else if t.compare(current.Value, newNode.Value) < 0 {
 		result, ok := t.add(current.Right, newNode)
 		if !ok {
-			return result, ok
+			return nil, false
 		}
 		current.Right = result
 	} else {
@@ -65,7 +63,7 @@ func (t *AVLTree) add(current *treeNode, newNode *treeNode) *treeNode, bool {
 			current.Right = rightRotate(current.Right)
 			rotatedNode = leftRotate(current)
 		} else {
-			//ERROR  
+			//ERROR todo: for debugging only
 			panic("current.Right.measureBalance() can NOT be equal to 0 when there is Right disbalance measured on current")
 		}
 	} else if balanceFactor > 1 {
@@ -76,77 +74,76 @@ func (t *AVLTree) add(current *treeNode, newNode *treeNode) *treeNode, bool {
 		} else if current.Left.measureBalance() > 0 { // LL
 			rotatedNode = rightRotate(current) 
 		} else {
-			//ERROR 
+			//ERROR todo: for debugging only
 			panic("current.Left.measureBalance() can NOT be equal to 0 when there is Left disbalance measured on current")
 		}
 	}
 
 	if rotatedNode != nil {
-		return rotatedNode
+		return rotatedNode, true
 	}
+
 	//no rotations have been performed
-	return current
+	return current, true
 }
 
 func (t *AVLTree) Remove(val interface{}) (*treeNode, bool) {
 	var parent *treeNode
 	current := t.root
 
-	// if current is nil ?!?!
 	for {
+		// no such node
 		if current == nil {
 			return nil, false
 		}
 
-		if t.compare(val, current.Value) > 0 { // Val is bigger (go Right)
-			parent = current
-			current = current.Right
-		} else if t.compare(val, current.Value) < 0 { // Val is smaller (go Left)
-			parent = current
-			current = current.Left
+		var next *treeNode
+		if t.compare(val, current.Value) > 0 { //(go Right)
+			next = current.Right
+		} else if t.compare(val, current.Value) < 0 { // (go Left)
+			next = current.Left
 		} else {
 			break
 		}
+		parent = current
+		current = next
 	}
 
     if current.Left == nil {
     	if current.Right == nil {
+			// current is a LEAF
     		replaceChild(parent, current, nil)
-    	}
+		}
+		//only has Right child
     	replaceChild(parent, current, current.Right)
-	} else if current.Right == nil { // only Left child    
+	} else if current.Right == nil { 
+		// only has Left child    
 		replaceChild(parent, current, current.Left)
 	} else {
 		// case 3 - current has 2 children 
 
 		//find ancestor
 		ancestor := current.Right
-		var previous *treeNode
+
+		//         var previous *treeNode
+
 		for ancestor.Left != nil {
 			ancestor = ancestor.Left
-		}
-
-
-		//ancestorsRight := ancestor.Right
-
-		// here I have the correct ancestor
-
+		} 
 	}
 
 		//find successor
 		// 3 cases -> 
 		//successor := current
 
-	
-
-		
 	t.count--;
+	panic("Not implemented")
 }
 
 //can be improved. Try to move the child's 
 //logic inside - if has only right or left ...
 func replaceChild(parent, child, replace *treeNode) {
-	if parent.Left = child {
+	if parent.Left == child {
 		parent.Left = replace
 		return 
 	}
@@ -154,7 +151,7 @@ func replaceChild(parent, child, replace *treeNode) {
 }
 
 func setHeight(node *treeNode) int {
-
+	//make recursive
 	var leftHeight int
 	var rightHeight int
 	if node.Left == nil {

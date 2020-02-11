@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	tr "./dataStructures/avlTree"
+	tr "legendary-doodle/dataStructures/avlTree"
 )
 
 func main(){
