@@ -109,6 +109,8 @@ func (t *AVLTree) Remove(val interface{}) (*treeNode, bool) {
 		current = next
 	}
 
+	result := current.Value
+
     if current.Left == nil {
     	if current.Right == nil {
 			// current is a LEAF
@@ -124,19 +126,29 @@ func (t *AVLTree) Remove(val interface{}) (*treeNode, bool) {
 
 		//find ancestor
 		ancestor := current.Right
+		if ancestor.Left == nil {
+			ancestor.Left = current.Left
+			replaceChild(parent, current, ancestor)
+		} else {
+			var ancestorsParent *treeNode
+			for ancestor.Left != nil {
+				ancestorsParent = ancestor
+				ancestor = ancestor.Left
+			} 
+			replaceChild(ancestorsParent, ancestor, ancestor.Right)
+			// todo:  Measure balance of ancestorsParent:
+			ancestorBalance := ancestorsParent.measureBalance()
 
-		//         var previous *treeNode
 
-		for ancestor.Left != nil {
-			ancestor = ancestor.Left
-		} 
+				//ancestor is now 'free' to replace current
+			replaceChild(parent, current, ancestor)
+		}
+
 	}
 
-		//find successor
-		// 3 cases -> 
-		//successor := current
 
 	t.count--;
+	return result, true
 	panic("Not implemented")
 }
 
